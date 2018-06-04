@@ -56,7 +56,7 @@ $(document).ready(function(){
         var $tpDD = $("#tp_docdate");
         var $tpPanel = $('#tpPaymentPanel');
         var $tpCheckbox = $('#tpPaymentCheckbox');
-    //endregion
+        //endregion
 
     //region OverrideHandlers
         function saveTP() {
@@ -82,31 +82,37 @@ $(document).ready(function(){
             _onChangePaymentType(e);
         };
         */
-    //endregion
+        //endregion
 
     //region SetMasks
         $.mask.definitions['1'] = '[01]';
         $.mask.definitions['3'] = '[0123]';
         $tpDD.mask("39.19.2999");
         $tpINN.mask("99999?9999999",{placeholder: ""});
-    //endregion
+        //endregion
 
     //region SetListeners
         $tpINN.focusout(function(){ check(); person._inn=$tpINN.val(); $tpDetails.val(person.print()) });
         $tpName.focusout(function(){ check(); person._name._fio=$tpName.val(); $tpDetails.val(person.print()) });
-        $tpActivity.focusout(function(){ check(); person._name._activity=$tpActivity.val(); $tpDetails.val(person.print()) });
+        $tpActivity.focusout(function(){ 
+            $tpActivity.val()=="ФЛ"?$tpAddr.show():$tpAddr.hide();
+            check(); person._name._activity=$tpActivity.val(); $tpDetails.val(person.print()) });
         $tpAddr.focusout(function(){ check(); person._address = $tpAddr.val(); $tpDetails.val(person.print()) });
         $tpDN.focusout(function(){ person._doc._number=$tpDN.val(); $tpDetails.val(person.print()) });
         $tpDD.focusout(function(){ person._doc._date=$tpDD.val(); $tpDetails.val(person.print()) });
         $tpCheckbox.click(function(){ $tpPanel.is(':visible')===true?$tpPanel.hide():$tpPanel.show() });
-    //endregion
+        //endregion
 
     //region InitControls
         person.init($details.val());
         $tpDetails.val(person.print());
         $tpINN.val(person._inn);
         $tpName.val(person._name._fio);
-        $tpAddr.val(person._address);
+        if ($tpActivity.val()=="ФЛ") {
+            $tpAddr.val(person._address);
+            $tpAddr.show();
+        } else 
+            $tpAddr.hide();
         $tpActivity.val(person._name._activity);
         fillSelectOptions($tpActivity, activities);
         $tpDN.val(person._doc._number);
@@ -116,7 +122,7 @@ $(document).ready(function(){
         //$details.val($details.val().substr($tpDetails.val().length));
         person.print().length > 0?$tpPanel.show():$tpPanel.hide();
         $('#payment_type').val()=="regular_payment"?$tpCheckbox.hide():$tpCheckbox.show();
-    //endregion
+        //endregion
 
     //region Checks
         function renderField(control,err) {
@@ -131,5 +137,5 @@ $(document).ready(function(){
         }
 
         check();
-    //endregion
+        //endregion
     });
