@@ -29,9 +29,16 @@ function innRules(act,inn) {
 
 function nameRules(act,name) {
     return [
-        [[{f:include,p:["ЮЛ",act]},{f: unmatch,p:[/(ООО|ЗАО|ПАО)\s([\wа-яё]+)/gi,name]}], STATUS_ERROR, "Укажите форму собственности и хотя бы одно слово"],
-        [[{f:include,p:["ИП,нотариус,адвокат,КФХ",act]},{f: unmatch,p:[/(ИП|КХ|АК)\s([\wа-яё]+)/gi,name]}], STATUS_ERROR, "Укажите форму ИП и хотя бы одно слово"],
-        [[{f:include,p:["ФЛ",act]},{f: exclude,p:[[2],name.split(' ',2).length]} ], STATUS_ERROR, "Укажите хотя бы два слова"],
+        [[{f:include,p:["ЮЛ",act]},{f:unmatch,p:[/(ООО|ЗАО|ПАО)\s([\wа-яё]+)/gi,name]}], STATUS_ERROR, "Укажите форму собственности и хотя бы одно слово"],
+        [[{f:include,p:["ИП,нотариус,адвокат,КФХ",act]},{f:unmatch,p:[/(ИП|КХ|АК)\s([\wа-яё]+)/gi,name]}], STATUS_ERROR, "Укажите форму ИП и хотя бы одно слово"],
+        [[{f:include,p:["ФЛ",act]},{f:exclude,p:[[2],name.split(' ',2).length]} ], STATUS_ERROR, "Укажите хотя бы два слова"],
+        [[{f:alwaysTrue,p:null}], STATUS_OK, ""]
+    ];
+}
+
+function addressRules(act,addr) {
+    return [
+        [[{f:include,p:["ФЛ",act]},{f:unmatch,p:[/(ООО|ЗАО|ПАО)\s([\wа-яё]+)/gi,addr]}], STATUS_ERROR, "Поле адрес должно содержать не менее 15 символов и по крайней мере 1 символ из них должен быть цифрой"],
         [[{f:alwaysTrue,p:null}], STATUS_OK, ""]
     ];
 }

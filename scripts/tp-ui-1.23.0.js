@@ -134,6 +134,7 @@ $(document).ready(function(){
             renderField($tpINN,validateInn($tpINN.val()));
             renderField($tpINN,checkRules(innRules($tpActivity.val(),$tpINN.val())));
             renderField($tpName,checkRules(nameRules($tpActivity.val(),$tpName.val())));
+            renderField($tpAddr,checkRules(addressRules($tpActivity.val(),$tpAddr.val())));
         }
 
         check();
