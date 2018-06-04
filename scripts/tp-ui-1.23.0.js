@@ -121,10 +121,17 @@ $(document).ready(function(){
     //endregion
 
     //region Checks
+    function renderField(control,err) {
+        setFieldStatus(control, err);
+        setFieldMessage(control, err.message);
+    }
+
     function check() {
-        checkRules(innRules($tpActivity.val(),$tpINN.val()), $tpINN);
-        checkRules(nameRules($tpActivity.val(),$tpName.val()), $tpName);
-     }
+        renderField($tpINN,validateInn($tpINN.val()));
+        renderField($tpINN,checkRules(innRules($tpActivity.val(),$tpINN.val())));
+        renderField($tpName,checkRules(nameRules($tpActivity.val(),$tpName.val())));
+    }
+
     check();
     //endregion
 });

@@ -2,17 +2,19 @@ function include(values, value) { return values.indexOf(value) > -1 }
 function exclude(values, value) { return values.indexOf(value) == -1 }
 function unmatch(reg, value) { return value.search(reg) != 0 }
 function alwaysTrue() { return true }
-function checkRules(rules, control) {
+function checkRules(rules) {
+    var error = {};
     rules.some(function(rule) {
         var result = rule[0].every(function (condition) {
             return condition.f.apply(this, condition.p);
         });
         if (result) {
-            setFieldStatus(control, rule[1]);
-            setFieldMessage(control, rule[2]);
+            error.status=rule[1];
+            error.message=rule[2];
         }
         return result
     });
+    return error;
 }
 
 //region Rules
